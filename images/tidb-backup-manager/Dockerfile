@@ -3,6 +3,13 @@ ARG TARGETARCH
 ARG RCLONE_VERSION=v1.68.1
 ARG SHUSH_VERSION=v1.5.5
 ARG TOOLKIT_VERSION=v8.1.0
+RUN sudo rm -rf /usr/local/go \
+  && wget https://golang.org/dl/go1.16.14.linux-amd64.tar.gz \
+  && sudo tar -C /usr/local -xvzf go1.16.14.linux-amd64.tar.gz \
+  && rm go1.16.14.linux-amd64.tar.gz
+
+ENV PATH=$PATH:/usr/local/go/bin
+
 RUN dnf install -y ca-certificates bind-utils wget nc unzip && dnf clean all
 
 RUN wget -nv https://github.com/ncw/rclone/releases/download/${RCLONE_VERSION}/rclone-${RCLONE_VERSION}-linux-${TARGETARCH}.zip \
